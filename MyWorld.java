@@ -24,5 +24,7 @@ public class MyWorld extends World
     public void loadWorld1() {
         PlayerCar che = new PlayerCar();
         addObject(che, 300, 200);
+        VerticalWall wall = new VerticalWall();
+        addObject(wall, 364, 200);
     }
 }
