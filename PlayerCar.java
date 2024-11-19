@@ -24,5 +24,6 @@ public class PlayerCar extends Car
         }
         wLast = Greenfoot.isKeyDown("up");
         aLast = Greenfoot.isKeyDown("left");
+        super.act();
     }
 }

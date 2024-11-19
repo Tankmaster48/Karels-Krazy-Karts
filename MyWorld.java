@@ -23,8 +23,8 @@ public class MyWorld extends World
     
     public void loadWorld1() {
         PlayerCar che = new PlayerCar();
-        addObject(che, 300, 200);
+        addObject(che, 126, 128); // subtract 4 from x
         VerticalWall wall = new VerticalWall();
-        addObject(wall, 364, 200);
+        addObject(wall, 160, 160);
     }
 }
