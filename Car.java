@@ -22,6 +22,9 @@ public class Car extends Actor
     public void move() {
         super.move(64);
         horn.play();
+        if (isTouching(HorizontalWall.class)) {
+            System.out.println("crash");
+        }
     }
     
     public void turnLeft() {
