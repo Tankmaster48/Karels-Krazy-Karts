@@ -25,15 +25,14 @@ public class MyWorld extends World
     
     public void loadWorld1() {
         PlayerCar pCar = new PlayerCar();
-        AICar aCar = new AICar();
+        AICar aCar = new GoodAI();
         boolean[][] hWalls = new boolean[30][16]; // 1 is horizontal 2 is vertical
         boolean[][] vWalls = new boolean[30][16];
-        hWalls[5][5] = true;
-        hWalls[0][0] = true;
-        hWalls[6][5] = true;
-        vWalls[0][0] = true;
+        addHorizontalLine(hWalls,5, 0, 10);
+        
         int[] carCoord = {5, 5};
-        int[] aiCarCoord = {6, 6};
+        int[] aiCarCoord = {6, 5};
+        
         loadWalls(hWalls, vWalls);
         addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
         addObject(aCar, aiCarCoord[0] * 64 + 32, aiCarCoord[1] * 64 + 32);
@@ -45,12 +44,23 @@ public class MyWorld extends World
             for (int j = 0; j < 16; j++) {
                 boolean hWall = hWalls[i][j];
                 if (hWall)
-                    addObject(new HorizontalWall(), 32 + 64 * i, 64 * j);
+                    addObject(new HorizontalWall(), 32 + 64 * j, 64 * i);
                 boolean vWall = vWalls[i][j];
                 if (vWall)
-                    addObject(new VerticalWall(), 64 * i, 32 + 64 * j);
+                    addObject(new VerticalWall(), 64 * j, 32 + 64 * i);
             }
         }
-        
+    }
+    
+    public void addHorizontalLine(boolean[][] walls, int row, int p1, int p2) {
+        for (int i = p1; i < p2; i++) {
+            walls[row][i] = true;
+        }
+    }
+    
+    public void addVerticalLine(boolean[][] walls, int col, int p1, int p2) {
+        for (int i = p1; i < p2; i++) {
+            walls[i][col] = true;
+        }
     }
 }

@@ -27,7 +27,7 @@ public class Car extends Actor
         if (crashTimer > 0) {
             return;
         }
-        if (frontNoWall()) {
+        if (frontIsClear()) {
             Car carCrash = (Car) frontCar();
             if (carCrash == null) {
                 move(64);
@@ -64,7 +64,7 @@ public class Car extends Actor
         turn(270);
     }
     
-    public boolean frontNoWall() {
+    public boolean frontIsClear() {
         move(10);
         if (isTouching(VerticalWall.class) || isTouching(HorizontalWall.class)) {
             turn(180);
@@ -89,5 +89,13 @@ public class Car extends Actor
     
     public void setCrash(int crash) {
         crashTimer = crash;
+    }
+    
+    public void turnAround() {
+        turn(180);
+    }
+    
+    public void turnRight() {
+        turn(90);
     }
 }

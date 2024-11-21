@@ -17,4 +17,8 @@ public class AICar extends Car
     {
         super.act();
     }
+    
+    public boolean wallOnRight() {
+        return getOneObjectAtOffset(10, 0, VerticalWall.class) != null || getOneObjectAtOffset(10, 0, HorizontalWall.class) != null;
+    }
 }
