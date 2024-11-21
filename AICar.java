@@ -15,6 +15,6 @@ public class AICar extends Car
     
     public void act()
     {
-        // Add your action code here.
+        super.act();
     }
 }

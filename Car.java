@@ -14,6 +14,7 @@ public class Car extends Actor
      */
     // GreenfootSound horn = new GreenfootSound("horn.wav");
     private int crashTimer = 0;
+    private boolean crossingFinish = false;
     
     public void act()
     {
@@ -26,12 +27,16 @@ public class Car extends Actor
         if (crashTimer > 0) {
             return;
         }
-        move(64);
-        // horn.play();
-        if (isTouching(VerticalWall.class)) {
-            turn(180);
-            move(64);
-            turn(180);
+        if (frontNoWall()) {
+            Car carCrash = (Car) frontCar();
+            if (carCrash == null) {
+                move(64);
+            } else {
+                crashTimer = 260;
+                carCrash.move(); // late rmake go in the same directio nhit
+                carCrash.setCrash(260);
+            }
+        } else {
             crashTimer = 250;
         }
     }
@@ -39,6 +44,12 @@ public class Car extends Actor
     public void crash() {
         if (crashTimer < 241) {
             turn(30);
+        } else if (crashTimer == 260) {
+            move(16);
+        } else if (crashTimer == 251) {
+            turn(180);
+            move(16);
+            turn(180);
         } else if (crashTimer == 250) {
             move(4);
         } else if (crashTimer == 241) {
@@ -51,5 +62,32 @@ public class Car extends Actor
     
     public void turnLeft() {
         turn(270);
+    }
+    
+    public boolean frontNoWall() {
+        move(10);
+        if (isTouching(VerticalWall.class) || isTouching(HorizontalWall.class)) {
+            turn(180);
+            move(10);
+            turn(180);
+            return false;
+        }
+        turn(180);
+        move(10);
+        turn(180);
+        return true;
+    }
+    
+    public Actor frontCar() {
+        move(10);
+        Actor car = getOneIntersectingObject(Car.class);
+        turn(180);
+        move(10);
+        turn(180);
+        return car;
+    }
+    
+    public void setCrash(int crash) {
+        crashTimer = crash;
     }
 }
