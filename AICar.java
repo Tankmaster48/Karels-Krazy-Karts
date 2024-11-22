@@ -19,6 +19,24 @@ public class AICar extends Car
     }
     
     public boolean wallOnRight() {
-        return getOneObjectAtOffset(10, 0, VerticalWall.class) != null || getOneObjectAtOffset(10, 0, HorizontalWall.class) != null;
+        turnRight();
+        if (frontIsClear()) {
+            turnLeft();
+            return false;
+        } else {
+            turnLeft();
+            return true;
+        }
+    }
+    
+    public boolean wallOnLeft() {
+        turnLeft();
+        if (frontIsClear()) {
+            turnRight();
+            return false;
+        } else {
+            turnRight();
+            return true;
+        }
     }
 }

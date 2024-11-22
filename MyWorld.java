@@ -28,10 +28,18 @@ public class MyWorld extends World
         AICar aCar = new GoodAI();
         boolean[][] hWalls = new boolean[30][16]; // 1 is horizontal 2 is vertical
         boolean[][] vWalls = new boolean[30][16];
-        addHorizontalLine(hWalls,5, 0, 10);
+        addHorizontalLine(hWalls, 1, 0, 25);
+        addHorizontalLine(hWalls, 14, 0, 25);
+        addVerticalLine(vWalls, 1, 0, 13);
+        addVerticalLine(vWalls, 26, 0, 13);
         
-        int[] carCoord = {5, 5};
-        int[] aiCarCoord = {6, 5};
+        addVerticalLine(vWalls, 3, 3, 11);
+        addVerticalLine(vWalls, 24, 3, 11);
+        addHorizontalLine(hWalls, 3, 3, 23);
+        addHorizontalLine(hWalls, 12, 3, 23);
+        
+        int[] carCoord = {2, 5};
+        int[] aiCarCoord = {1, 5};
         
         loadWalls(hWalls, vWalls);
         addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
@@ -44,23 +52,23 @@ public class MyWorld extends World
             for (int j = 0; j < 16; j++) {
                 boolean hWall = hWalls[i][j];
                 if (hWall)
-                    addObject(new HorizontalWall(), 32 + 64 * j, 64 * i);
+                    addObject(new HorizontalWall(), 32 + 64 * i, 64 * j);
                 boolean vWall = vWalls[i][j];
                 if (vWall)
-                    addObject(new VerticalWall(), 64 * j, 32 + 64 * i);
+                    addObject(new VerticalWall(), 64 * i, 32 + 64 * j);
             }
         }
     }
     
-    public void addHorizontalLine(boolean[][] walls, int row, int p1, int p2) {
-        for (int i = p1; i < p2; i++) {
-            walls[row][i] = true;
+    public void addHorizontalLine(boolean[][] walls, int x, int p1, int p2) {
+        for (int i = p1; i <= p2; i++) {
+            walls[i][x] = true;
         }
     }
     
-    public void addVerticalLine(boolean[][] walls, int col, int p1, int p2) {
-        for (int i = p1; i < p2; i++) {
-            walls[i][col] = true;
+    public void addVerticalLine(boolean[][] walls, int y, int p1, int p2) {
+        for (int i = p1; i <= p2; i++) {
+            walls[y][i] = true;
         }
     }
 }

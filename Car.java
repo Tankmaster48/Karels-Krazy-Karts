@@ -33,8 +33,14 @@ public class Car extends Actor
                 move(64);
             } else {
                 crashTimer = 260;
-                carCrash.move(); // late rmake go in the same directio nhit
-                carCrash.setCrash(260);
+                int enemyDirection = carCrash.getRotation();
+                if (carCrash.getCrash() == 0) {
+                    carCrash.setRotation(this.getRotation());
+                    carCrash.move(64); // later make go in the same directio nhit
+                    carCrash.setCrash(260);
+                    carCrash.setRotation(enemyDirection);
+                }
+                
             }
         } else {
             crashTimer = 250;
@@ -89,6 +95,10 @@ public class Car extends Actor
     
     public void setCrash(int crash) {
         crashTimer = crash;
+    }
+    
+    public int getCrash() {
+        return crashTimer;
     }
     
     public void turnAround() {

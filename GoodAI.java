@@ -12,22 +12,41 @@ public class GoodAI extends AICar
      * Act - do whatever the NiceAI wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    int i = 0;
+    private int i = 0;
+    private boolean wallWasLeft;
+    private boolean wallWasWasLeft;
+    private boolean wallWasRight;
+    private boolean wallWasWasRight;
+    
     public void act()
     {
-        if (i % 20 == 0) {
+        if (i % 4 == 0) {
+            System.out.println(wallOnRight());
             followWallRight();
         }
         i++;
+        super.act();
     }
     
     public void followWallRight() {
-        if (wallOnRight()) {
-            if (frontIsClear()) {
-                move();
-            } else {
-                turnLeft();
-            }
+        if (wallWasLeft && !wallOnLeft()) {
+            turnLeft();
+            wallWasLeft = wallOnLeft();
+            wallWasRight = wallOnRight();
+            return;
+        }
+        if (wallWasRight && !wallOnRight()) {
+            turnRight();
+            wallWasLeft = wallOnLeft();
+            wallWasRight = wallOnRight();
+            return;
+        }
+        wallWasLeft = wallOnLeft();
+        wallWasRight = wallOnRight();
+        if (frontIsClear()) {
+            move();
+        } else if (!wallOnLeft()) {
+            turnLeft();
         } else {
             turnRight();
         }
