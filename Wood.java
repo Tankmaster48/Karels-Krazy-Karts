@@ -1,15 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class firstFinishLine here.
+ * Write a description of class Wood here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class FirstFinishLine extends Tile
+public class Wood extends Tile
 {
     /**
-     * Act - do whatever the firstFinishLine wants to do. This method is called whenever
+     * Act - do whatever the Wood wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()

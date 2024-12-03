@@ -21,20 +21,25 @@ public class MyWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1920, 1024, 1);
+        setPaintOrder(Car.class, Wall.class, Tile.class);
         
         PlayerCar pCar = new PlayerCar();
         addObject(pCar, 0, 0);
-        loadWorld1(pCar);
+        loadWorld2(pCar);
         
         // menuWorld();
     }
     
     public void loadWorld1(PlayerCar pCar) {
         AICar aCar = new GoodAI();
-        boolean[][] hWalls = new boolean[30][16]; // 1 is horizontal 2 is vertical
-        boolean[][] vWalls = new boolean[30][16];
+        boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
+        boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
         lapsToWin = 2;
         worldId = 1;
+        
+        addVerticalLine(firstFinishLines, 5, 10, 13);
         
         addHorizontalLine(hWalls, 1, 0, 25);
         addHorizontalLine(hWalls, 14, 0, 25);
@@ -49,6 +54,7 @@ public class MyWorld extends World
         int[] carCoord = {2, 5};
         int[] aiCarCoord = {1, 5};
         
+        loadTiles(firstFinishLines, 0);
         loadWalls(hWalls, vWalls);
         // addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
@@ -59,14 +65,21 @@ public class MyWorld extends World
     
     public void loadWorld2(PlayerCar pCar) {
         AICar aCar = new GoodAI();
-        boolean[][] hWalls = new boolean[30][16]; // 1 is horizontal 2 is vertical
-        boolean[][] vWalls = new boolean[30][16];
+        boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
+        boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
+        boolean[][] grasses = new boolean[30][16];
+        boolean[][] roads = new boolean[30][16];
         lapsToWin = 2;
         worldId = 1;
         
-        addHorizontalLine(hWalls, 1, 0, 25);
+        addHorizontalLine(firstFinishLines, 6, 1, 4);
+        addHorizontalLine(finishLines, 7, 1, 4);
+        
+        addHorizontalLine(hWalls, 1, 1, 25);
         addHorizontalLine(hWalls, 15, 5, 22);
-        addVerticalLine(vWalls, 1, 0, 15);
+        addVerticalLine(vWalls, 1, 1, 15);
         addVerticalLine(vWalls, 23, 4, 14);
         addVerticalLine(vWalls, 26, 0, 15);
        
@@ -78,7 +91,7 @@ public class MyWorld extends World
         addHorizontalLine(hWalls, 9, 7, 19);
         addHorizontalLine(hWalls, 11, 5, 15);
         addHorizontalLine(hWalls, 13, 7, 19);
-        addHorizontalLine(hWalls, 15, 0, 25);
+        addHorizontalLine(hWalls, 16, 0, 25);
         int[] carCoord = {1, 2};
         int[] aiCarCoord = {1, 5};
         
@@ -93,8 +106,8 @@ public class MyWorld extends World
     public void menuWorld() {
         PlayerCar pCar = new PlayerCar();
         // 1 is horizontal 2 is vertical 
-        boolean[][] hWalls = new boolean[30][16]; 
-        boolean[][] vWalls = new boolean[30][16]; 
+        boolean[][] hWalls = new boolean[31][17]; 
+        boolean[][] vWalls = new boolean[31][17]; 
         worldId = 0;
         int[] carCoord = {7, 9};
         // addObject(new Title(), 480, 96); 
@@ -137,8 +150,8 @@ public class MyWorld extends World
     
     public void menuWorld(PlayerCar pCar) {
         // 1 is horizontal 2 is vertical 
-        boolean[][] hWalls = new boolean[30][16]; 
-        boolean[][] vWalls = new boolean[30][16]; 
+        boolean[][] hWalls = new boolean[31][17]; 
+        boolean[][] vWalls = new boolean[31][17]; 
         worldId = 0;
         int[] carCoord = {7, 9};
         // addObject(new Title(), 480, 96); 
@@ -201,8 +214,8 @@ public class MyWorld extends World
     }
     
     public void loadWalls(boolean[][] hWalls, boolean[][] vWalls) {
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < 31; i++) {
+            for (int j = 0; j < 17; j++) {
                 boolean hWall = hWalls[i][j];
                 if (hWall)
                     addObject(new HorizontalWall(), 32 + 64 * i, 64 * j);
@@ -213,17 +226,32 @@ public class MyWorld extends World
         }
     }
     
-    public void loadTiles(boolean[][] tiles, 
-    
-    public void addHorizontalLine(boolean[][] walls, int x, int p1, int p2) {
-        for (int i = p1; i <= p2; i++) {
-            walls[i][x] = true;
+    public void loadTiles(boolean[][] tiles, int tileId) {
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 16; j++) {
+                if (tiles[i][j]) {
+                    Tile tile;
+                    switch (tileId) {
+                        case 0:
+                            tile = new FirstFinishLine();
+                        default:
+                            tile = new FirstFinishLine();
+                    }
+                    addObject(tile, 32 + 64 * i, 32 + 64 * j);
+                }
+            }
         }
     }
     
-    public void addVerticalLine(boolean[][] walls, int y, int p1, int p2) {
+    public void addHorizontalLine(boolean[][] coords, int x, int p1, int p2) {
         for (int i = p1; i <= p2; i++) {
-            walls[y][i] = true;
+            coords[i][x] = true;
+        }
+    }
+    
+    public void addVerticalLine(boolean[][] coords, int y, int p1, int p2) {
+        for (int i = p1; i <= p2; i++) {
+            coords[y][i] = true;
         }
     }
     
