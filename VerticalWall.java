@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class VerticalWall extends Actor
+public class VerticalWall extends Wall
 {
     /**
      * Act - do whatever the VerticalWall wants to do. This method is called whenever

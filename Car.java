@@ -15,6 +15,7 @@ public class Car extends Actor
     // GreenfootSound horn = new GreenfootSound("horn.wav");
     private int crashTimer = 0;
     private boolean crossingFinish = false;
+    private int laps = 0;
     
     public void act()
     {
@@ -32,19 +33,25 @@ public class Car extends Actor
             if (carCrash == null) {
                 move(64);
             } else {
-                crashTimer = 260;
                 int enemyDirection = carCrash.getRotation();
                 if (carCrash.getCrash() == 0) {
+                    crashTimer = 260;
                     carCrash.setRotation(this.getRotation());
                     carCrash.move(64); // later make go in the same directio nhit
                     carCrash.setCrash(260);
                     carCrash.setRotation(enemyDirection);
+                } else {
+                    move(64);
                 }
-                
             }
         } else {
             crashTimer = 250;
         }
+    }
+    
+    public void pickBeeper() {
+        Beeper beep = (Beeper) getOneIntersectingObject(Beeper.class);
+        if (beep != null) beep.pick((PlayerCar) this);
     }
     
     public void crash() {
@@ -66,13 +73,52 @@ public class Car extends Actor
         crashTimer--;
     }
     
+    public void checkWin() {
+        MyWorld world = (MyWorld) getWorld();
+        if (world.getLaps() == laps) {
+            // win the game
+        }
+    }
+    
     public void turnLeft() {
+        if (crashTimer > 0) {
+            return;
+        }
+        
         turn(270);
     }
     
     public boolean frontIsClear() {
+        if (isTouching(FinishLine.class)) {
+            crossingFinish = false;
+            move(10);
+            if (isTouching(FirstFinishLine.class)) {
+                turn(180);
+                move(10);
+                turn(180);
+                return false;
+            } else {
+                turn(180);
+                move(10);
+                turn(180);
+                return true;
+            }
+        }
         move(10);
-        if (isTouching(VerticalWall.class) || isTouching(HorizontalWall.class)) {
+        if (isTouching(FinishLine.class)) {
+            if (crossingFinish) {
+                turn(180);
+                move(10);
+                turn(180);
+                laps++;
+                return true;
+            } else {
+                turn(180);
+                move(10);
+                turn(180);
+                return false;
+            }
+        } else if (isTouching(VerticalWall.class) || isTouching(HorizontalWall.class)){
             turn(180);
             move(10);
             turn(180);

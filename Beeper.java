@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Beeper extends Actor
+public abstract class Beeper extends CourseElement
 {
     /**
      * Act - do whatever the Beeper wants to do. This method is called whenever
@@ -16,4 +16,6 @@ public class Beeper extends Actor
     {
         // Add your action code here.
     }
+    
+    public abstract void pick(PlayerCar pCar);
 }

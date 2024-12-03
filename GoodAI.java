@@ -20,8 +20,8 @@ public class GoodAI extends AICar
     
     public void act()
     {
-        if (i % 4 == 0) {
-            System.out.println(wallOnRight());
+        if (i % 10 == 0) {
+            // System.out.println(wallOnRight());
             followWallRight();
         }
         i++;

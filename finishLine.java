@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class finishLine extends Actor
+public class FinishLine extends CourseElement
 {
     /**
      * Act - do whatever the finishLine wants to do. This method is called whenever

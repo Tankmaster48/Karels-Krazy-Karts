@@ -14,6 +14,9 @@ public class PlayerCar extends Car
      */
     boolean wLast = false;
     boolean aLast = false;
+    boolean spaceLast = false;
+    int qian;
+    
     public void act()
     {
         if (Greenfoot.isKeyDown("up") && !wLast) {
@@ -22,8 +25,12 @@ public class PlayerCar extends Car
         if (Greenfoot.isKeyDown("left") && !aLast) {
             turnLeft();
         }
+        if (Greenfoot.isKeyDown("space") && !spaceLast) {
+            pickBeeper();
+        }
         wLast = Greenfoot.isKeyDown("up");
         aLast = Greenfoot.isKeyDown("left");
+        spaceLast = Greenfoot.isKeyDown("space");
         super.act();
     }
 }
