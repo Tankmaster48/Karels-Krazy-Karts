@@ -14,13 +14,17 @@ public class Car extends Actor
      */
     // GreenfootSound horn = new GreenfootSound("horn.wav");
     private int crashTimer = 0;
-    private boolean finishing = false;
     private int laps = 0;
+    private boolean won;
     
     public void act()
     {
         if (crashTimer > 0) {
             crash();
+        }
+        
+        if (won && crashTimer == 0) {
+            ((MyWorld) getWorld()).win(this);
         }
     }
     
@@ -63,43 +67,49 @@ public class Car extends Actor
     }
     
     public void turnLeft() {
-        if (crashTimer == 0 && !finishing) {
+        if (crashTimer == 0) {
             turn(270);
         }
     }
     
     public boolean frontIsClear() {
+        boolean wasFirstFinish = getOneIntersectingObject(FirstFinishLine.class) != null;
+        boolean wasFinish = getOneIntersectingObject(FinishLine.class) != null;
         boolean ans;
         move(30); // move off of the current grid
-        ans = getOneIntersectingObject(null) == null; // null checks if any class is intersecting
+        ans = getOneIntersectingObject(Wall.class) == null && getOneIntersectingObject(Car.class) == null; // null checks if any class is intersecting
+        boolean frontFirstFinish = getOneIntersectingObject(FirstFinishLine.class) != null;
+        boolean frontFinish = getOneIntersectingObject(FinishLine.class) != null;
         turn(180);
         move(30);
         turn(180);
         
-        // if we are not touching anything anymore (ans = false) but we are currently finishing,
-        // we must have passed through the final finish line and done a lap.
-        if (ans == false && finishing) {
-            finishing = false;
+        // finishline should add lap if crossing, remove lap if backward
+        if (wasFirstFinish && frontFinish) {
             laps++;
+            lap();
+        }
+        if (wasFinish && frontFirstFinish) {
+            laps--;
         }
         return ans;
     }
     
+    public void lap() {
+        if (laps == ((MyWorld) getWorld()).getLaps()) {
+            crashTimer = 250;
+            won = true;
+        }   
+    }
+    
     public void checkIntersection() {
         move(30); // move off of the current grid
-        if (getOneIntersectingObject(null) != null) {
             // if we have entered into this block, we are currently intersecting something.
-            if (isTouching(FirstFinishLine.class)) {
-                finishing = true;
-                move(64);
-            }
-            else if (isTouching(Wall.class)) {
-                crashTimer = 260;
-            }
-            else if (isTouching(Car.class)) {
-                System.out.println("hi");
-                playerCrash();
-            }
+        if (isTouching(Wall.class)) {
+            crashTimer = 260;
+        }
+        else if (isTouching(Car.class)) {
+            playerCrash();
         }
         turn(180);
         move(30);
@@ -110,7 +120,7 @@ public class Car extends Actor
         Car frontCar = (Car) getOneIntersectingObject(Car.class);
         if (frontCar.getCrash() == 0 && crashTimer == 0) { // we will ignore crashing into cars that are already crashing
             frontCar.setRotation(this.getRotation());
-            frontCar.move(64);
+            frontCar.move();
             frontCar.setCrash(260);
             crashTimer = 260;
         }

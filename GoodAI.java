@@ -30,6 +30,10 @@ public class GoodAI extends AICar
     }
     
     public void followWallRight() {
+        if (wallOnLeft() && !wallOnRight()) {
+            turn(270);
+            return;
+        }
         if (!wallInFront()) {
             move();
         }

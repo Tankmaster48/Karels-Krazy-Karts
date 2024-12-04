@@ -29,6 +29,19 @@ public class AICar extends Car
         return ans;
     }
     
+    public boolean wallOnLeft() { 
+        boolean ans;
+        turn(180);
+        turn(90);
+        move(30);
+        ans = getOneIntersectingObject(Wall.class) != null;
+        turn(180);
+        move(30);
+        turn(90);
+        turn(180);
+        return ans;
+    }
+    
     public boolean wallInFront() {
         boolean ans;
         move(30);
