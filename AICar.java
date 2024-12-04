@@ -18,25 +18,30 @@ public class AICar extends Car
         super.act();
     }
     
-    public boolean wallOnRight() {
-        turnRight();
-        if (frontIsClear()) {
-            turnLeft();
-            return false;
-        } else {
-            turnLeft();
-            return true;
-        }
+    public boolean wallOnRight() { 
+        boolean ans;
+        turn(90);
+        move(30);
+        ans = getOneIntersectingObject(Wall.class) != null;
+        turn(180);
+        move(30);
+        turn(90);
+        return ans;
     }
     
-    public boolean wallOnLeft() {
+    public boolean wallInFront() {
+        boolean ans;
+        move(30);
+        ans = getOneIntersectingObject(Wall.class) != null;
+        turn(180);
+        move(30);
+        turn(180);
+        return ans;
+    }
+    
+    public void turnRight() {
         turnLeft();
-        if (frontIsClear()) {
-            turnRight();
-            return false;
-        } else {
-            turnRight();
-            return true;
-        }
+        turnLeft();
+        turnLeft();
     }
 }

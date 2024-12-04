@@ -13,10 +13,6 @@ public class GoodAI extends AICar
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     private int i = 0;
-    private boolean wallWasLeft;
-    private boolean wallWasWasLeft;
-    private boolean wallWasRight;
-    private boolean wallWasWasRight;
     
     public void act()
     {
@@ -28,27 +24,25 @@ public class GoodAI extends AICar
         super.act();
     }
     
+    public void turnCorner() {
+        turnRight();
+        move();
+    }
+    
     public void followWallRight() {
-        if (wallWasLeft && !wallOnLeft()) {
-            turnLeft();
-            wallWasLeft = wallOnLeft();
-            wallWasRight = wallOnRight();
-            return;
-        }
-        if (wallWasRight && !wallOnRight()) {
-            turnRight();
-            wallWasLeft = wallOnLeft();
-            wallWasRight = wallOnRight();
-            return;
-        }
-        wallWasLeft = wallOnLeft();
-        wallWasRight = wallOnRight();
-        if (frontIsClear()) {
+        if (!wallInFront()) {
             move();
-        } else if (!wallOnLeft()) {
+        }
+        else {
             turnLeft();
-        } else {
-            turnRight();
+        }
+        
+        if (!wallOnRight()) {
+            turnCorner();
+        }
+        
+        if (!wallOnRight()) {
+            turnCorner();
         }
     }
 }

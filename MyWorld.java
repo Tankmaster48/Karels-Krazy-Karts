@@ -24,7 +24,7 @@ public class MyWorld extends World
         setPaintOrder(Car.class, Wall.class, Tile.class);
         
         PlayerCar pCar = new PlayerCar();
-        addObject(pCar, 0, 0);
+        addObject(pCar, 12*64, 12*64);
         loadWorld2(pCar);
         
         // menuWorld();
@@ -92,7 +92,7 @@ public class MyWorld extends World
         addHorizontalLine(hWalls, 11, 5, 15);
         addHorizontalLine(hWalls, 13, 7, 19);
         addHorizontalLine(hWalls, 16, 0, 25);
-        int[] carCoord = {1, 2};
+        int[] carCoord = {12, 12};
         int[] aiCarCoord = {1, 5};
         
         loadWalls(hWalls, vWalls);

@@ -15,7 +15,6 @@ public class PlayerCar extends Car
     boolean wLast = false;
     boolean aLast = false;
     boolean spaceLast = false;
-    int qian;
     
     public void act()
     {
