@@ -24,11 +24,11 @@ public class MyWorld extends World
         super(1920, 1024, 1);
         setPaintOrder(Car.class, Wall.class, FirstFinishLine.class, FinishLine.class, Tile.class);
         
-        PlayerCar pCar = new PlayerCar();
-        addObject(pCar, 12*64, 12*64);
-        loadWorld1(pCar);
+        //PlayerCar pCar = new PlayerCar();
+        //addObject(pCar, 12*64, 12*64);
+        //loadWorld1(pCar);
         
-        // menuWorld();
+        loadMenu();
     }
     
     public void goMenu() {
