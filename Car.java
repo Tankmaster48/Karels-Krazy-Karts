@@ -24,11 +24,12 @@ public class Car extends Actor
         }
         
         if (won && crashTimer == 0) {
-            ((MyWorld) getWorld()).win(this);
+            ((MyWorld) getWorld()).end();
         }
     }
     
     public void move() {
+        if (((MyWorld) getWorld()).getWon()) return;
         if (crashTimer == 0) {
             if (!frontIsClear()) {
                 checkIntersection();
@@ -57,13 +58,6 @@ public class Car extends Actor
             turn(30);
         }
         crashTimer--;
-    }
-    
-    public void checkWin() {
-        MyWorld world = (MyWorld) getWorld();
-        if (world.getLaps() == laps) {
-            return;
-        }
     }
     
     public void turnLeft() {
@@ -97,8 +91,9 @@ public class Car extends Actor
     
     public void lap() {
         if (laps == ((MyWorld) getWorld()).getLaps()) {
-            crashTimer = 250;
+            crashTimer = 240;
             won = true;
+            ((MyWorld) getWorld()).win(this);
         }   
     }
     

@@ -17,6 +17,7 @@ public class MyWorld extends World
      */
     private int lapsToWin;
     private int worldId;
+    private boolean won;
     public MyWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
@@ -25,20 +26,20 @@ public class MyWorld extends World
         
         PlayerCar pCar = new PlayerCar();
         addObject(pCar, 12*64, 12*64);
-        loadWorld2(pCar);
+        loadWorld1(pCar);
         
         // menuWorld();
     }
     
-    public void goMenu(PlayerCar pcar) {
+    public void goMenu() {
         switch (worldId) {
+            case 0:
+                removeWorld0();
+                loadMenu(getObjects(PlayerCar.class).get(0));
+                break;
             case 1:
                 removeWorld1();
-                loadMenu(getObjects(PlayerCar.class)[0]);
-                break;
-            case 2:
-                removeWorld2();
-                loadMenu(getObject(PlayerCar.class));
+                loadMenu(getObjects(PlayerCar.class).get(0));
                 break;
             default:
                 removeMenu();
@@ -50,6 +51,10 @@ public class MyWorld extends World
         clearCourse();
         showText(null, 800, 480);
         showText(null, 160, 480);
+    }
+    
+    public void removeWorld0() {
+        clearCourse();
     }
     
     public void removeWorld1() {
@@ -124,30 +129,41 @@ public class MyWorld extends World
         }
     }
     
-    public void win(Car car) {
+    public void win(Car winner) {
+        winner.setCrash(240);
+        won = true;
+    }
+    
+    public void end() {
         switch(worldId) {
-            case 2:
+            case 1:
                 goMenu();
                 break;
         }
+        won = false;
     }
     
     public void clearCourse() {
         removeObjects(getObjects(CourseElement.class));
+        removeObjects(getObjects(AICar.class));
     }
     
     public int getLaps() {
         return lapsToWin;
     }
     
-    public void loadWorld1(PlayerCar pCar) {
+    public boolean getWon() {
+        return won;
+    }
+    
+    public void loadWorld0(PlayerCar pCar) {
         AICar aCar = new GoodAI();
         boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
         boolean[][] vWalls = new boolean[31][17];
         boolean[][] firstFinishLines = new boolean[30][16];
         boolean[][] finishLines = new boolean[30][16];
         lapsToWin = 2;
-        worldId = 1;
+        worldId = 0;
         
         addVerticalLine(firstFinishLines, 5, 10, 13);
         
@@ -173,7 +189,7 @@ public class MyWorld extends World
         aCar.turn(270);
     }
     
-    public void loadWorld2(PlayerCar pCar) {
+    public void loadWorld1(PlayerCar pCar) {
         AICar aCar = new GoodAI();
         boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
         boolean[][] vWalls = new boolean[31][17];
@@ -183,8 +199,8 @@ public class MyWorld extends World
         boolean[][] roads = new boolean[30][16];
         boolean[][] woods = new boolean[30][16];
         boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
-        lapsToWin = 1;
-        worldId = 2;
+        lapsToWin = 2;
+        worldId = 1;
         
         addHorizontalLine(firstFinishLines, 6, 1, 4);
         addHorizontalLine(finishLines, 7, 1, 4);
@@ -218,7 +234,7 @@ public class MyWorld extends World
         aCar.turn(90);
     }
     
-    public void menuWorld() {
+    public void loadMenu() {
         PlayerCar pCar = new PlayerCar();
         // 1 is horizontal 2 is vertical 
         boolean[][] hWalls = new boolean[31][17]; 
@@ -263,10 +279,10 @@ public class MyWorld extends World
         addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
     }
     
-    public void menuWorld(PlayerCar pCar) {
+    public void loadMenu(PlayerCar pCar) {
         // 1 is horizontal 2 is vertical 
-        boolean[][] hWalls = new boolean[31][17]; 
-        boolean[][] vWalls = new boolean[31][17]; 
+        boolean[][] hWalls = new boolean[31][17];
+        boolean[][] vWalls = new boolean[31][17];
         worldId = 0;
         int[] carCoord = {7, 9};
         // addObject(new Title(), 480, 96); 
@@ -303,7 +319,6 @@ public class MyWorld extends World
         loadWalls(hWalls, vWalls); 
         
         addObject(new Course1Button(), 160, 216);
-        
-        addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
     }
 }
