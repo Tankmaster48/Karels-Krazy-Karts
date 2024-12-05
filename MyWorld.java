@@ -17,7 +17,7 @@ public class MyWorld extends World
      */
     private int lapsToWin;
     private int worldId;
-    private boolean won;
+    private boolean freeze;
     public MyWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
@@ -112,8 +112,8 @@ public class MyWorld extends World
     }
     
     public void addRectangle(boolean[][] coords, int x1, int y1, int x2, int y2) {
-        for (int i = x1; i < x2; i++) {
-            addVerticalLine(coords, i, x1, x2);
+        for (int i = x1; i <= x2; i++) {
+            addVerticalLine(coords, i, y1, y2);
         }
     }
     
@@ -131,7 +131,12 @@ public class MyWorld extends World
     
     public void win(Car winner) {
         winner.setCrash(240);
-        won = true;
+        freeze = true;
+    }
+    
+    public void start() {
+        freeze = true;
+        
     }
     
     public void end() {
@@ -140,7 +145,7 @@ public class MyWorld extends World
                 goMenu();
                 break;
         }
-        won = false;
+        freeze = false;
     }
     
     public void clearCourse() {
@@ -152,8 +157,8 @@ public class MyWorld extends World
         return lapsToWin;
     }
     
-    public boolean getWon() {
-        return won;
+    public boolean getFreeze() {
+        return freeze;
     }
     
     public void loadWorld0(PlayerCar pCar) {
@@ -205,13 +210,15 @@ public class MyWorld extends World
         addHorizontalLine(firstFinishLines, 6, 1, 4);
         addHorizontalLine(finishLines, 7, 1, 4);
         addVerticalLine(grasses, 0, 0, 15);
-        addRectangle(roads, 1, 0, 10, 10);
+        addVerticalLine(grasses, 26, 0, 15);
+        addHorizontalLine(grasses, 0, 1, 25);
+        addRectangle(roads, 1, 1, 25, 15);
         
         addHorizontalLine(hWalls, 1, 1, 25);
         addHorizontalLine(hWalls, 15, 5, 22);
         addVerticalLine(vWalls, 1, 1, 15);
         addVerticalLine(vWalls, 23, 4, 14);
-        addVerticalLine(vWalls, 26, 0, 15);
+        addVerticalLine(vWalls, 26, 1, 15);
        
         addVerticalLine(vWalls, 5, 3, 14);
         addVerticalLine(vWalls, 20, 1, 12);

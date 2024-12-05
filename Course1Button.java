@@ -18,9 +18,9 @@ public class Course1Button extends Beeper
     }
     
     @Override
-    public void pick(PlayerCar pCar) {
+    public void pick(Car pCar) {
         MyWorld world = (MyWorld) getWorld();
         world.removeMenu();
-        world.loadWorld1(pCar);
+        world.loadWorld1((PlayerCar) pCar);
     }
 }

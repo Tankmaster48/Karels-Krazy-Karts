@@ -5,5 +5,5 @@ comment1.params=
 comment1.target=void\ act()
 comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Course1Button\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment2.params=pCar
-comment2.target=void\ pick(PlayerCar)
+comment2.target=void\ pick(Car)
 numComments=3

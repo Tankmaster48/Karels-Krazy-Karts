@@ -16,9 +16,13 @@ public class Car extends Actor
     private int crashTimer = 0;
     private int laps = 0;
     private boolean won;
+    private MyWorld world;
     
     public void act()
     {
+        if (world == null) {
+            world = (MyWorld) getWorld();
+        }
         if (crashTimer > 0) {
             crash();
         }
@@ -29,7 +33,7 @@ public class Car extends Actor
     }
     
     public void move() {
-        if (((MyWorld) getWorld()).getWon()) return;
+        if (world.getFreeze()) return;
         if (crashTimer == 0) {
             if (!frontIsClear()) {
                 checkIntersection();
@@ -41,8 +45,12 @@ public class Car extends Actor
     }
     
     public void pickBeeper() {
+        if (crashTimer != 0) {
+            return;
+        }
         Beeper beep = (Beeper) getOneIntersectingObject(Beeper.class);
-        if (beep != null) beep.pick((PlayerCar) this);
+        if (beep != null) 
+            beep.pick((PlayerCar) this);
     }
     
     public void crash() {
@@ -61,7 +69,7 @@ public class Car extends Actor
     }
     
     public void turnLeft() {
-        if (crashTimer == 0) {
+        if (crashTimer == 0 && !((MyWorld) getWorld()).getFreeze()) {
             turn(270);
         }
     }
@@ -90,7 +98,7 @@ public class Car extends Actor
     }
     
     public void lap() {
-        if (laps == ((MyWorld) getWorld()).getLaps()) {
+        if (laps == world.getLaps()) {
             crashTimer = 240;
             won = true;
             ((MyWorld) getWorld()).win(this);
