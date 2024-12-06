@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class InteractableTile extends Tile
+public class InteractableTile extends AccessoryTile
 {
     /**
      * Act - do whatever the InteractableTile wants to do. This method is called whenever

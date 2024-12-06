@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class GrassTire1 extends Tile
+public class GrassTire1 extends AccessoryTile
 {
     /**
      * Act - do whatever the GrassTire1 wants to do. This method is called whenever

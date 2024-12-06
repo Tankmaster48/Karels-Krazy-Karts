@@ -17,18 +17,26 @@ public class MyWorld extends World
      */
     private int lapsToWin;
     private int worldId;
+    private int reward;
     private boolean freeze;
+    private PlayerCar pCar;
+    private GreenfootSound ambience = new GreenfootSound("ambience.wav");
+    private GreenfootSound winSound = new GreenfootSound("win.wav");
+    private GreenfootSound loseSound = new GreenfootSound("loss.wav");
+    
     public MyWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1920, 1024, 1);
-        setPaintOrder(Car.class, Wall.class, FirstFinishLine.class, FinishLine.class, Tile.class);
+        setPaintOrder(StartLight.class, Car.class, Wall.class, Beeper.class, AccessoryTile.class, Tile.class);
         
         //PlayerCar pCar = new PlayerCar();
         //addObject(pCar, 12*64, 12*64);
         //loadWorld1(pCar);
         
         loadMenu();
+        pCar = getObjects(PlayerCar.class).get(0);
+        updateMoney();
     }
     
     public void goMenu() {
@@ -131,12 +139,26 @@ public class MyWorld extends World
     
     public void win(Car winner) {
         winner.setCrash(240);
+        if (winner.getClass() == PlayerCar.class) {
+            ((PlayerCar) winner).addMoney(reward);
+            winSound.play();
+        } else {
+            loseSound.play();
+        }
         freeze = true;
     }
     
     public void start() {
         freeze = true;
-        
+        addObject(new StartLight(), 64 * 15, 64 * 8);
+    }
+    
+    public void startMusic() {
+        ambience.play();
+    }
+    
+    public void stopMusic() {
+        ambience.stop();
     }
     
     public void end() {
@@ -145,6 +167,7 @@ public class MyWorld extends World
                 goMenu();
                 break;
         }
+        stopMusic();
         freeze = false;
     }
     
@@ -153,12 +176,24 @@ public class MyWorld extends World
         removeObjects(getObjects(AICar.class));
     }
     
+    public void updateMoney() {
+        showText(Integer.toString(pCar.getMoney()), 32, 32);
+    }
+    
     public int getLaps() {
         return lapsToWin;
     }
     
     public boolean getFreeze() {
         return freeze;
+    }
+    
+    public int getReward() {
+        return reward;
+    }
+    
+    public void setFreeze(boolean freeze) {
+        this.freeze = freeze;
     }
     
     public void loadWorld0(PlayerCar pCar) {
@@ -206,6 +241,7 @@ public class MyWorld extends World
         boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
         lapsToWin = 2;
         worldId = 1;
+        reward = 50;
         
         addHorizontalLine(firstFinishLines, 6, 1, 4);
         addHorizontalLine(finishLines, 7, 1, 4);
@@ -239,16 +275,31 @@ public class MyWorld extends World
         pCar.setRotation(90);
         addObject(aCar, aiCarCoord[0] * 64 + 32, aiCarCoord[1] * 64 + 32);
         aCar.turn(90);
+        start();
     }
     
     public void loadMenu() {
         PlayerCar pCar = new PlayerCar();
         // 1 is horizontal 2 is vertical 
         boolean[][] hWalls = new boolean[31][17]; 
-        boolean[][] vWalls = new boolean[31][17]; 
+        boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
+        boolean[][] grasses = new boolean[30][16];
+        boolean[][] roads = new boolean[30][16];
+        boolean[][] woods = new boolean[30][16];
+        boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
         worldId = 0;
         int[] carCoord = {7, 9};
         // addObject(new Title(), 480, 96); 
+        addRectangle(woods, 2, 3, 12, 5);
+        addVerticalLine(woods, 7, 6, 7);
+        addRectangle(woods, 6, 8, 8, 10);
+        addHorizontalLine(woods, 9, 4, 5);
+        addHorizontalLine(woods, 9, 9, 10);
+        addRectangle(woods, 1, 8, 3, 10);
+        addRectangle(woods, 11, 8, 13, 10);
+        addRectangle(grasses, 0, 0, 29, 15);
         showText("Shop", 160,480); 
         addVerticalLine(vWalls, 1, 8, 10); 
         addHorizontalLine(hWalls, 8, 1, 3); 
@@ -279,7 +330,8 @@ public class MyWorld extends World
         addHorizontalLine(hWalls, 11, 11, 13); 
         addVerticalLine(vWalls, 11, 8, 8); 
         addVerticalLine(vWalls, 11, 10, 10);
-        loadWalls(hWalls, vWalls); 
+        loadWalls(hWalls, vWalls);
+        loadAllTiles(tileLists);
         
         addObject(new Course1Button(), 160, 216);
         
@@ -287,44 +339,59 @@ public class MyWorld extends World
     }
     
     public void loadMenu(PlayerCar pCar) {
-        // 1 is horizontal 2 is vertical 
+        // 1 is horizontal 2 is vertical
         boolean[][] hWalls = new boolean[31][17];
         boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
+        boolean[][] grasses = new boolean[30][16];
+        boolean[][] roads = new boolean[30][16];
+        boolean[][] woods = new boolean[30][16];
+        boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
         worldId = 0;
         int[] carCoord = {7, 9};
-        // addObject(new Title(), 480, 96); 
-        showText("Shop", 160,480); 
-        addVerticalLine(vWalls, 1, 8, 10); 
-        addHorizontalLine(hWalls, 8, 1, 3); 
-        addHorizontalLine(hWalls, 11, 1, 3); 
-        addVerticalLine(vWalls, 4, 8, 8); 
-        addVerticalLine(vWalls, 4, 10, 10); 
-        addVerticalLine(vWalls, 9, 8, 8); 
-        addHorizontalLine(hWalls, 9, 4, 5); 
-        addHorizontalLine(hWalls, 10, 4, 5); 
-        addVerticalLine(vWalls, 9, 10, 10); 
-        addHorizontalLine(hWalls, 11, 6, 8); 
-        addHorizontalLine(hWalls, 8, 6, 6); 
-        addVerticalLine(vWalls, 8, 6, 7); 
-        addVerticalLine(vWalls, 7, 6, 7); 
-        addHorizontalLine(hWalls, 8, 8, 8); 
-        showText("Garage", 800,480); 
-        addHorizontalLine(hWalls, 6, 2, 6); 
-        addHorizontalLine(hWalls, 6, 8, 12); 
-        addVerticalLine(vWalls, 2, 3, 5); 
+       
+        addRectangle(woods, 2, 3, 12, 5);
+        addVerticalLine(woods, 7, 6, 7);
+        addRectangle(woods, 6, 8, 8, 10);
+        addHorizontalLine(woods, 9, 4, 5);
+        addHorizontalLine(woods, 9, 9, 10);
+        addRectangle(woods, 1, 8, 3, 10);
+        addRectangle(woods, 11, 8, 13, 10);
+        addRectangle(grasses, 0, 0, 29, 15);
+        // addObject(new Title(), 480, 96);
+        showText("Shop", 160,480);
+        addVerticalLine(vWalls, 1, 8, 10);
+        addHorizontalLine(hWalls, 8, 1, 3);
+        addHorizontalLine(hWalls, 11, 1, 3);
+        addVerticalLine(vWalls, 4, 8, 8);
+        addVerticalLine(vWalls, 4, 10, 10);
+        addVerticalLine(vWalls, 9, 8, 8);
+        addHorizontalLine(hWalls, 9, 4, 5);
+        addHorizontalLine(hWalls, 10, 4, 5);
+        addVerticalLine(vWalls, 9, 10, 10);
+        addHorizontalLine(hWalls, 11, 6, 8);
+        addHorizontalLine(hWalls, 8, 6, 6);
+        addVerticalLine(vWalls, 8, 6, 7);
+        addVerticalLine(vWalls, 7, 6, 7);
+        addHorizontalLine(hWalls, 8, 8, 8);
+        showText("Garage", 800,480);
+        addHorizontalLine(hWalls, 6, 2, 6);
+        addHorizontalLine(hWalls, 6, 8, 12);
+        addVerticalLine(vWalls, 2, 3, 5);
         addVerticalLine(vWalls, 13, 3, 5);
-        addHorizontalLine(hWalls, 3, 2, 12); 
-        addVerticalLine(vWalls, 6, 8, 8); 
-        addHorizontalLine(hWalls, 9, 9, 10); 
-        addHorizontalLine(hWalls, 10, 9, 10); 
-        addVerticalLine(vWalls, 6, 10, 10); 
-        addVerticalLine(vWalls, 14, 8, 10); 
-        addHorizontalLine(hWalls, 8, 11, 13); 
-        addHorizontalLine(hWalls, 11, 11, 13); 
-        addVerticalLine(vWalls, 11, 8, 8); 
+        addHorizontalLine(hWalls, 3, 2, 12);
+        addVerticalLine(vWalls, 6, 8, 8);
+        addHorizontalLine(hWalls, 9, 9, 10);
+        addHorizontalLine(hWalls, 10, 9, 10);
+        addVerticalLine(vWalls, 6, 10, 10);
+        addVerticalLine(vWalls, 14, 8, 10);
+        addHorizontalLine(hWalls, 8, 11, 13);
+        addHorizontalLine(hWalls, 11, 11, 13);
+        addVerticalLine(vWalls, 11, 8, 8);
         addVerticalLine(vWalls, 11, 10, 10);
-        loadWalls(hWalls, vWalls); 
-        
+        loadWalls(hWalls, vWalls);
+        loadAllTiles(tileLists);
         addObject(new Course1Button(), 160, 216);
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
     }

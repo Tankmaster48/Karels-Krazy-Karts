@@ -17,6 +17,8 @@ public class Car extends Actor
     private int laps = 0;
     private boolean won;
     private MyWorld world;
+    private int crashTime = 260;
+    private GreenfootSound crashSound = new GreenfootSound("crash.wav");
     
     public void act()
     {
@@ -54,15 +56,16 @@ public class Car extends Actor
     }
     
     public void crash() {
-        if (crashTimer == 260) {
+        if (crashTimer == crashTime) {
             move(16);
         }
-        else if (crashTimer == 241) {
+        else if (crashTimer == crashTime - 19) {
             turn(180);
             move(16);
             turn(180);
+            crashSound.play();
         }
-        else if (crashTimer < 241) {
+        else if (crashTimer < crashTime - 19) {
             turn(30);
         }
         crashTimer--;
@@ -123,8 +126,10 @@ public class Car extends Actor
         Car frontCar = (Car) getOneIntersectingObject(Car.class);
         if (frontCar.getCrash() == 0 && crashTimer == 0) { // we will ignore crashing into cars that are already crashing
             frontCar.setRotation(this.getRotation());
-            frontCar.move();
-            frontCar.setCrash(260);
+            if (frontCar.frontIsClear()) {
+                frontCar.move(64);
+            }
+            frontCar.setCrash(240);
             crashTimer = 260;
         }
     }
@@ -139,7 +144,11 @@ public class Car extends Actor
     }
     
     public void setCrash(int crash) {
-        crashTimer = crash;
+        crashTimer = crash / 260 * crashTime;
+    }
+    
+    public void setCrashTime(int time) {
+        crashTime = time;
     }
     
     public int getCrash() {
