@@ -57,4 +57,8 @@ public class AICar extends Car
         turnLeft();
         turnLeft();
     }
+    
+    public int getDifficulty() {
+        return ((MyWorld) getWorld()).getDifficulty();
+    }
 }

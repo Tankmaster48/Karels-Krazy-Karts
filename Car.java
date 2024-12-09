@@ -19,6 +19,8 @@ public class Car extends Actor
     private MyWorld world;
     private int crashTime = 260;
     private GreenfootSound crashSound = new GreenfootSound("crash.wav");
+    private GreenfootSound revSound = new GreenfootSound("enginerev.wav");
+    private GreenfootSound screechSound = new GreenfootSound("tirescreech.wav");
     
     public void act()
     {
@@ -35,7 +37,9 @@ public class Car extends Actor
     }
     
     public void move() {
-        if (world.getFreeze()) return;
+        revSound.stop();
+        revSound.play();
+        if (world == null || world.getFreeze()) return;
         if (crashTimer == 0) {
             if (!frontIsClear()) {
                 checkIntersection();
@@ -73,6 +77,8 @@ public class Car extends Actor
     
     public void turnLeft() {
         if (crashTimer == 0 && !((MyWorld) getWorld()).getFreeze()) {
+            screechSound.stop();
+            screechSound.play();
             turn(270);
         }
     }

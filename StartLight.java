@@ -6,13 +6,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class StartLight extends Actor
+public class StartLight extends GuiActor
 {
     /**
      * Act - do whatever the StartLight wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     int i = 0;
+    private GreenfootSound countdownSound = new GreenfootSound("countdown.wav");
+    
     public void act()
     {
         i++;
@@ -20,6 +22,7 @@ public class StartLight extends Actor
     }
     
     public void nextSprite(int i) {
+        countdownSound.play();
         switch (i) {
             case 0:
                 break;

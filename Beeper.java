@@ -17,5 +17,7 @@ public abstract class Beeper extends CourseElement
         // Add your action code here.
     }
     
-    public abstract void pick(Car car);
+    public void pick(Car car) {
+        
+    }
 }
