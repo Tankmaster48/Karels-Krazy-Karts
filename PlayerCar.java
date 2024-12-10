@@ -49,6 +49,10 @@ public class PlayerCar extends Car
         return money;
     }
     
+    public boolean hasCrashUpgrade() {
+        return crashUpgrade;
+    }
+    
     public void buyCrashUpgrade() {
         crashUpgrade = true;
     }

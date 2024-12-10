@@ -42,7 +42,7 @@ public class Car extends Actor
                 checkIntersection();
             }
             else {
-                if (sound) (new GreenfootSound("enginerev.wav")).play();
+                // if (sound) (new GreenfootSound("enginerev.wav")).play();
                 move(64);
             }
         }

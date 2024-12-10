@@ -60,9 +60,10 @@ public class MyWorld extends World
     
     public void removeMenu() {
         clearCourse();
+        showText(null, 96, 480);
         showText(null, 800, 480);
-        showText(null, 160, 480);
-        showText(null, 224, 408);
+        showText(null, 160, 440);
+        showText(null, 224, 320);
         pCar.setSound(true);
     }
     
@@ -256,6 +257,7 @@ public class MyWorld extends World
     
     public void loadWorld1(PlayerCar pCar) {
         AICar aCar = new GoodAI();
+        aCar.setSound(true);
         boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
         boolean[][] vWalls = new boolean[31][17];
         boolean[][] firstFinishLines = new boolean[30][16];
@@ -325,7 +327,7 @@ public class MyWorld extends World
         addRectangle(woods, 11, 8, 13, 10);
         addRectangle(grasses, 0, 0, 29, 15);
         // addObject(new Title(), 480, 96);
-        showText("Shop", 160,480);
+        showText("Shop", 160, 440);
         addVerticalLine(vWalls, 1, 8, 10);
         addHorizontalLine(hWalls, 8, 1, 3);
         addHorizontalLine(hWalls, 11, 1, 3);
@@ -357,13 +359,14 @@ public class MyWorld extends World
         addVerticalLine(vWalls, 11, 10, 10);
         loadWalls(hWalls, vWalls);
         loadAllTiles(tileLists);
-        showText("Difficulty", 224, 408);
+        showText("Difficulty", 224, 320);
 
         addObject(new Course1Button(), 160, 216);
         addObject(new Difficulty1(), 160, 352);
         addObject(new Difficulty2(), 224, 352);
         addObject(new Difficulty3(), 288, 352);
-        addObject(new CrashUpgrade(), 736, 544);
+        addObject(new CrashUpgrade(), 96, 544);
+        showText("Reduce\nCrash\nTime", 96, 480);
         
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
         pCar.setSound(false);

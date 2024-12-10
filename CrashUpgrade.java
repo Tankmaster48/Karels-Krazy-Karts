@@ -18,7 +18,11 @@ public class CrashUpgrade extends ShopButton
     }
     
     public void pick(Car car) {
-        if (tryBuy(50, (PlayerCar) car)) car.setCrashTime(100);
-        ((PlayerCar) car).buyCrashUpgrade();
+        if (!((PlayerCar) car).hasCrashUpgrade()) {
+            if (tryBuy(50, (PlayerCar) car)) car.setCrashTime(100);
+            ((PlayerCar) car).buyCrashUpgrade();
+        } else {
+            (new GreenfootSound("notbought.wav")).play();
+        }
     }
 }
