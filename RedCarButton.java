@@ -19,5 +19,6 @@ public class RedCarButton extends Button
     
     public void pick(Car car) {
         car.setImage("playercar.png");
+        super.sound();
     }
 }

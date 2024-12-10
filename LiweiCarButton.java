@@ -19,5 +19,6 @@ public class LiweiCarButton extends Button
     
     public void pick(Car car) {
         car.setImage("liweicar.png");
+        super.sound();
     }
 }

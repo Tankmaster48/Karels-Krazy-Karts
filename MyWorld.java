@@ -55,24 +55,6 @@ public class MyWorld extends World
         }
     }
     
-    public void removeMenu() {
-        clearCourse();
-        showText(null, 96, 480);
-        showText(null, 800, 480);
-        showText(null, 160, 440);
-        showText(null, 224, 320);
-        showText(null, 96, 544);
-        pCar.setSound(true);
-    }
-    
-    public void removeWorld0() {
-        clearCourse();
-    }
-    
-    public void removeWorld1() {
-        clearCourse();
-    }
-    
     public void loadWalls(boolean[][] hWalls, boolean[][] vWalls) {
         for (int i = 0; i < 31; i++) {
             for (int j = 0; j < 17; j++) {
@@ -224,6 +206,26 @@ public class MyWorld extends World
         updateDifficulty();
     }
     
+    public void removeMenu() {
+        clearCourse();
+        showText(null, 96, 480);
+        showText(null, 800, 480);
+        showText(null, 160, 440);
+        showText(null, 224, 320);
+        showText(null, 96, 544);
+        showText(null, 160, 480);
+        showText(null, 160, 544);
+        pCar.setSound(true);
+    }
+    
+    public void removeWorld0() {
+        clearCourse();
+    }
+    
+    public void removeWorld1() {
+        clearCourse();
+    }
+    
     public void loadWorld0(PlayerCar pCar) {
         AICar aCar = new GoodAI();
         boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
@@ -307,6 +309,68 @@ public class MyWorld extends World
         start();
     }
     
+    public void loadWorld2(PlayerCar pCar) {
+        AICar aCar = new GoodAI();
+        aCar.setSound(true);
+        
+        boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
+        boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
+        boolean[][] grasses = new boolean[30][16];
+        boolean[][] roads = new boolean[30][16];
+        boolean[][] woods = new boolean[30][16];
+        boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
+        lapsToWin = 2;
+        worldId = 1;
+        
+        addHorizontalLine(firstFinishLines, 6, 1, 4);
+        addHorizontalLine(finishLines, 7, 1, 4);
+        addVerticalLine(grasses, 0, 0, 15);
+        addVerticalLine(grasses, 26, 0, 15);
+        addHorizontalLine(grasses, 0, 1, 25);
+        addRectangle(roads, 1, 1, 25, 15);
+        
+        addHorizontalLine(hWalls, 1, 1, 25);
+        addHorizontalLine(hWalls, 15, 5, 22);
+        addVerticalLine(vWalls, 1, 1, 15);
+        addVerticalLine(vWalls, 23, 3, 14);
+        addVerticalLine(vWalls, 26, 1, 15);
+       
+        addVerticalLine(vWalls, 5, 3, 14);
+        addVerticalLine(vWalls, 7, 1, 12);
+        addVerticalLine(vWalls, 20, 5, 12);
+        addVerticalLine(vWalls, 18, 7, 14);
+        addVerticalLine(vWalls, 16, 5, 12);
+        addVerticalLine(vWalls, 14, 7, 14);
+        addVerticalLine(vWalls, 12, 5, 12);
+        addVerticalLine(vWalls, 10, 7, 14);
+        addHorizontalLine(hWalls, 3, 9, 22);
+        addHorizontalLine(hWalls, 5, 7, 19);
+        addHorizontalLine(hWalls, 16, 0, 25);
+        int[] carCoord = {4, 5};
+        int[] aiCarCoord = {1, 5};
+        
+        loadWalls(hWalls, vWalls);
+        loadAllTiles(tileLists);
+        // addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setRotation(90);
+        addObject(aCar, aiCarCoord[0] * 64 + 32, aiCarCoord[1] * 64 + 32);
+        aCar.turn(90);
+        /*
+        for (int i = 0; i < 10; i++) {
+            AICar aCar1 = new GoodAI();
+            aCar1.setSound(true);
+            addObject(aCar1, aiCarCoord[0] * 64 + 32, aiCarCoord[1] * 64 + 32 - i * 64);
+            aCar1.turn(90);
+        }
+        */
+        
+        start();
+    }
+
+    
     public void loadMenu(PlayerCar pCar) {
         // 1 is horizontal 2 is vertical
         boolean[][] hWalls = new boolean[31][17];
@@ -364,6 +428,9 @@ public class MyWorld extends World
         showText("Difficulty", 224, 320);
 
         addObject(new Course1Button(), 160, 224);
+        addObject(new Course2Button(), 224, 224);
+        // addObject(new Course1Button(), 160, 224);
+        
         addObject(new Difficulty1(), 160, 352);
         addObject(new Difficulty2(), 224, 352);
         addObject(new Difficulty3(), 288, 352);
@@ -379,10 +446,8 @@ public class MyWorld extends World
         addObject(new LiweiCarButton(), 864, 544);
         addObject(new JoshuaCarButton(), 736, 672);
         addObject(new RedCarButton(), 864, 672);
-        showText("50", 96, 544);
         
         addObject(new Title(), 480, 160);
-        
         
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
         pCar.setSound(false);
