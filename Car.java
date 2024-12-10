@@ -35,13 +35,13 @@ public class Car extends Actor
     }
     
     public void move() {
-        (new GreenfootSound("enginerev.wav")).play();
         if (world == null || world.getFreeze()) return;
         if (crashTimer == 0) {
             if (!frontIsClear()) {
                 checkIntersection();
             }
             else {
+                (new GreenfootSound("enginerev.wav")).play();
                 move(64);
             }
         }

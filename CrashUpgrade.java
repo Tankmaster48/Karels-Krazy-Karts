@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CrashUpgrade extends Beeper
+public class CrashUpgrade extends ShopButton
 {
     /**
      * Act - do whatever the CrashUpgrade wants to do. This method is called whenever
@@ -18,12 +18,6 @@ public class CrashUpgrade extends Beeper
     }
     
     public void pick(Car car) {
-        PlayerCar pCar = (PlayerCar) car;
-        if (pCar.getMoney() > 50) {
-            pCar.addMoney(-50);
-            pCar.setCrashTime(100);
-        } else {
-            // play a not good sound
-        }
+        if (tryBuy(50, (PlayerCar) car)) car.setCrashTime(100);
     }
 }
