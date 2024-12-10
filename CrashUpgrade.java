@@ -12,7 +12,6 @@ public class CrashUpgrade extends ShopButton
      * Act - do whatever the CrashUpgrade wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private int i = 0;
     
     public CrashUpgrade() {
         super();

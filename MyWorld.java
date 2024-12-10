@@ -367,14 +367,22 @@ public class MyWorld extends World
         addObject(new Difficulty1(), 160, 352);
         addObject(new Difficulty2(), 224, 352);
         addObject(new Difficulty3(), 288, 352);
+        
+        showText("Reduce\nCrash\nTime", 96, 480);
         addObject(new CrashUpgrade(), 96, 544);
+        showText("50", 96, 544);
+        showText("Turn\nRight", 160, 480);
+        addObject(new RightTurnUpgrade(), 160, 544);
+        showText("300", 160, 544);
+        
         addObject(new CraigCarButton(), 736, 544);
         addObject(new LiweiCarButton(), 864, 544);
         addObject(new JoshuaCarButton(), 736, 672);
         addObject(new RedCarButton(), 864, 672);
         showText("50", 96, 544);
+        
         addObject(new Title(), 480, 160);
-        showText("Reduce\nCrash\nTime", 96, 480);
+        
         
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
         pCar.setSound(false);

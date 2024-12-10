@@ -59,7 +59,15 @@ public class PlayerCar extends Car
         return crashUpgrade;
     }
     
+    public boolean hasRightTurnUpgrade() {
+        return rtUpgrade;
+    }
+    
     public void buyCrashUpgrade() {
         crashUpgrade = true;
+    }
+    
+    public void buyRtUpgrade() {
+        rtUpgrade = true;
     }
 }
