@@ -14,8 +14,10 @@ public class PlayerCar extends Car
      */
     private boolean wLast;
     private boolean aLast;
+    private boolean dLast;
     private boolean spaceLast;
     private boolean crashUpgrade;
+    private boolean rtUpgrade;
     private int money;
     
     public void act()
@@ -26,11 +28,15 @@ public class PlayerCar extends Car
         if (Greenfoot.isKeyDown("left") && !aLast) {
             turnLeft();
         }
+        if (Greenfoot.isKeyDown("right") && !dLast && rtUpgrade) {
+            turnRight();
+        }
         if (Greenfoot.isKeyDown("space") && !spaceLast) {
             pickBeeper();
         }
         wLast = Greenfoot.isKeyDown("up");
         aLast = Greenfoot.isKeyDown("left");
+        dLast = Greenfoot.isKeyDown("right");
         spaceLast = Greenfoot.isKeyDown("space");
         super.act();
     }

@@ -20,7 +20,10 @@ public class Car extends Actor
     private MyWorld world;
     private int crashTime = 260;
     private GreenfootSound crashSound = new GreenfootSound("crash.wav");
-    
+    private GreenfootSound engineSound = new GreenfootSound("engine_rev.wav");
+    private int moveTime = 0;
+    private boolean revving;
+
     public void act()
     {
         if (world == null) {
@@ -29,12 +32,17 @@ public class Car extends Actor
         if (crashTimer > 0) {
             crash();
         }
-        
+
         if (won && crashTimer == 0) {
             ((MyWorld) getWorld()).end();
         }
+        if (moveTime > 45 && revving) {
+            engineSound.stop();
+            revving = false;
+        }
+        moveTime++;
     }
-    
+
     public void move() {
         if (world == null || world.getFreeze()) return;
         if (crashTimer == 0) {
@@ -42,8 +50,12 @@ public class Car extends Actor
                 checkIntersection();
             }
             else {
-                // if (sound) (new GreenfootSound("enginerev.wav")).play();
                 move(64);
+                if (!revving) {
+                    if (sound) engineSound.play();
+                    revving = true;
+                }
+                moveTime = 0;
             }
         }
     }
@@ -167,6 +179,9 @@ public class Car extends Actor
     }
     
     public void turnRight() {
-        turn(90);
+        if (crashTimer == 0 && !((MyWorld) getWorld()).getFreeze()) {
+            if (sound) (new GreenfootSound("tirescreech.wav")).play();
+            turn(90);
+        }
     }
 }

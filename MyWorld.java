@@ -29,12 +29,9 @@ public class MyWorld extends World
     {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1920, 1024, 1);
-        setPaintOrder(GuiActor.class, Car.class, Wall.class, Beeper.class, AccessoryTile.class, Tile.class);
+        ambience.setVolume(30);
+        setPaintOrder(GuiActor.class, Car.class, Title.class, Wall.class, Beeper.class, AccessoryTile.class, Tile.class);
         
-        //PlayerCar pCar = new PlayerCar();
-        //addObject(pCar, 12*64, 12*64);
-        //loadWorld1(pCar);
-        // addObject(new TitleScreen(), 960, 512);
         pCar = new PlayerCar();
         addObject(pCar, 0, 0);
         loadMenu(pCar);
@@ -64,6 +61,7 @@ public class MyWorld extends World
         showText(null, 800, 480);
         showText(null, 160, 440);
         showText(null, 224, 320);
+        showText(null, 96, 544);
         pCar.setSound(true);
     }
     
@@ -211,6 +209,10 @@ public class MyWorld extends World
     
     public int getDifficulty() {
         return difficulty;
+    }
+    
+    public PlayerCar getPlayer() {
+        return pCar;
     }
     
     public void setFreeze(boolean freeze) {
@@ -361,11 +363,17 @@ public class MyWorld extends World
         loadAllTiles(tileLists);
         showText("Difficulty", 224, 320);
 
-        addObject(new Course1Button(), 160, 216);
+        addObject(new Course1Button(), 160, 224);
         addObject(new Difficulty1(), 160, 352);
         addObject(new Difficulty2(), 224, 352);
         addObject(new Difficulty3(), 288, 352);
         addObject(new CrashUpgrade(), 96, 544);
+        addObject(new CraigCarButton(), 736, 544);
+        addObject(new LiweiCarButton(), 864, 544);
+        addObject(new JoshuaCarButton(), 736, 672);
+        addObject(new RedCarButton(), 864, 672);
+        showText("50", 96, 544);
+        addObject(new Title(), 480, 160);
         showText("Reduce\nCrash\nTime", 96, 480);
         
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);

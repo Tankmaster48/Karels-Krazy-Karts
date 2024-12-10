@@ -12,15 +12,27 @@ public class CrashUpgrade extends ShopButton
      * Act - do whatever the CrashUpgrade wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    private int i = 0;
+    
+    public CrashUpgrade() {
+        super();
+        setPrice(50);
+    }
+    
     public void act()
     {
-        // Add your action code here.
+        super.act();
     }
     
     public void pick(Car car) {
         if (!((PlayerCar) car).hasCrashUpgrade()) {
-            if (tryBuy(50, (PlayerCar) car)) car.setCrashTime(100);
-            ((PlayerCar) car).buyCrashUpgrade();
+            if (tryBuy(50, (PlayerCar) car)) {
+                car.setCrashTime(99);
+                ((PlayerCar) car).buyCrashUpgrade();
+                setColor();
+            } else {
+                (new GreenfootSound("notbought.wav")).play();
+            }
         } else {
             (new GreenfootSound("notbought.wav")).play();
         }

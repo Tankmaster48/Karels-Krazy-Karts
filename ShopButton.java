@@ -14,10 +14,17 @@ public class ShopButton extends Beeper
      */
     
     private GreenfootSound chaching = new GreenfootSound("chaching.wav");
+    private int price;
+    private int i = 0;
     
     public void act()
     {
-        // Add your action code here.
+        if (i < 2) {
+            i++;
+        } else if (i == 2) {
+            setColor();
+            i++;
+        }
     }
     
     public boolean tryBuy(int price, PlayerCar pCar) {
@@ -29,5 +36,25 @@ public class ShopButton extends Beeper
             (new GreenfootSound("notbought.wav")).play();
             return false;
         }
+    }
+    
+    public boolean canBuy(int price, PlayerCar pCar) {
+        return pCar.getMoney() >= price;
+    }
+    
+    public void setColor() {
+        if ((((MyWorld) getWorld()).getPlayer()).hasCrashUpgrade()) {
+            setImage("yellowbeep.png");
+        } else if (canBuy(price, ((MyWorld) getWorld()).getPlayer())) {
+            setImage("greenbeep.png");
+        }
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+    
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
