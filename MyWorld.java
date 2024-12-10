@@ -30,8 +30,24 @@ public class MyWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1920, 1024, 1);
         ambience.setVolume(30);
-        setPaintOrder(GuiActor.class, Car.class, Title.class, Wall.class, Beeper.class, AccessoryTile.class, Tile.class);
+        setPaintOrder(StartButton.class, GuiActor.class, Car.class, Title.class, Wall.class, Beeper.class, AccessoryTile.class, Tile.class);
         
+        loadStart();
+    }
+    
+    public void loadStart() {
+        addObject(new TitleScreen(), 960, 540);
+        addObject(new StartButton(), 960, 900);
+    }
+    
+    public void loadComic() {
+        removeObjects(getObjects(TitleScreen.class));
+        removeObjects(getObjects(StartButton.class));
+        addObject(new ComicStrip(), 960, 540);
+    }
+    
+    public void endComic() {
+        removeObjects(getObjects(ComicStrip.class));
         pCar = new PlayerCar();
         addObject(pCar, 0, 0);
         loadMenu(pCar);
@@ -47,6 +63,14 @@ public class MyWorld extends World
                 break;
             case 1:
                 removeWorld1();
+                loadMenu(getObjects(PlayerCar.class).get(0));
+                break;
+            case 2:
+                clearCourse();
+                loadMenu(getObjects(PlayerCar.class).get(0));
+                break;
+            case 3:
+                clearCourse();
                 loadMenu(getObjects(PlayerCar.class).get(0));
                 break;
             default:
@@ -322,7 +346,7 @@ public class MyWorld extends World
         boolean[][] woods = new boolean[30][16];
         boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
         lapsToWin = 2;
-        worldId = 1;
+        worldId = 2;
         
         addHorizontalLine(firstFinishLines, 6, 1, 4);
         addHorizontalLine(finishLines, 7, 1, 4);
@@ -369,6 +393,70 @@ public class MyWorld extends World
         
         start();
     }
+    
+    public void loadWorld3(PlayerCar pCar) {
+        AICar aCar = new GoodAI();
+        boolean[][] hWalls = new boolean[31][17]; // 1 is horizontal 2 is vertical
+        boolean[][] vWalls = new boolean[31][17];
+        boolean[][] firstFinishLines = new boolean[30][16];
+        boolean[][] finishLines = new boolean[30][16];
+        boolean[][] grasses = new boolean[30][16];
+        boolean[][] roads = new boolean[30][16];
+        boolean[][] woods = new boolean[30][16];
+        boolean[][][] tileLists = {firstFinishLines, finishLines, grasses, roads, woods};
+        lapsToWin = 2;
+        worldId = 3;
+        
+        addHorizontalLine(firstFinishLines, 6, 1, 4);
+        addHorizontalLine(finishLines, 7, 1, 4);
+        addVerticalLine(grasses, 0, 0, 15);
+        addVerticalLine(grasses, 26, 0, 15);
+        addHorizontalLine(grasses, 0, 1, 25);
+        addRectangle(roads, 1, 1, 25, 15);
+        
+        addHorizontalLine(hWalls, 1, 1, 25);
+        addHorizontalLine(hWalls, 15, 5, 24);
+        addVerticalLine(vWalls, 1, 1, 15);
+        addVerticalLine(vWalls, 25, 2, 14);
+        addVerticalLine(vWalls, 26, 1, 15);
+       
+        addVerticalLine(vWalls, 5, 3, 14);
+        addVerticalLine(vWalls, 7, 1, 12);
+        addVerticalLine(vWalls, 24, 3, 13);
+        addVerticalLine(vWalls, 23, 4, 14);
+        addHorizontalLine(hWalls, 2, 9, 24);
+        addHorizontalLine(hWalls, 3, 7, 23);
+        addHorizontalLine(hWalls, 4, 9, 22);
+        addHorizontalLine(hWalls, 5, 7, 21);
+        addHorizontalLine(hWalls, 6, 9, 18);
+        addHorizontalLine(hWalls, 7, 7, 17);
+        addHorizontalLine(hWalls, 8, 9, 16);
+        addHorizontalLine(hWalls, 9, 7, 15);
+        addHorizontalLine(hWalls, 10, 8, 16);
+        addHorizontalLine(hWalls, 11, 7, 15);
+        addHorizontalLine(hWalls, 12, 8, 16);
+        addHorizontalLine(hWalls, 13, 7, 15);
+        addHorizontalLine(hWalls, 14, 8, 16);
+        addHorizontalLine(hWalls, 14, 7, 16);
+        addVerticalLine(vWalls, 22, 5, 13);
+        addVerticalLine(vWalls, 21, 6, 14);
+        addVerticalLine(vWalls, 20, 5, 13);
+        addVerticalLine(vWalls, 19, 6, 14);
+        addVerticalLine(vWalls, 18, 7, 13);
+        addVerticalLine(vWalls, 17, 8, 14);
+        addHorizontalLine(hWalls, 16, 0, 25);
+        int[] carCoord = {3, 5};
+        int[] aiCarCoord = {1, 5};
+        
+        loadWalls(hWalls, vWalls);
+        loadAllTiles(tileLists);
+        // addObject(pCar, carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setRotation(90);
+        addObject(aCar, aiCarCoord[0] * 64 + 32, aiCarCoord[1] * 64 + 32);
+        aCar.turn(90);
+    }
+
 
     
     public void loadMenu(PlayerCar pCar) {
@@ -429,7 +517,7 @@ public class MyWorld extends World
 
         addObject(new Course1Button(), 160, 224);
         addObject(new Course2Button(), 224, 224);
-        // addObject(new Course1Button(), 160, 224);
+        addObject(new Course3Button(), 288, 224);
         
         addObject(new Difficulty1(), 160, 352);
         addObject(new Difficulty2(), 224, 352);

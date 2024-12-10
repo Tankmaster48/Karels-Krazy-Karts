@@ -1,15 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class RedCarButton here.
+ * Write a description of class Course3Button here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class RedCarButton extends Button
+public class Course3Button extends Button
 {
     /**
-     * Act - do whatever the RedCarButton wants to do. This method is called whenever
+     * Act - do whatever the Course3Button wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
@@ -17,8 +17,11 @@ public class RedCarButton extends Button
         // Add your action code here.
     }
     
-    public void pick(Car car) {
-        car.setImage("raymondcar.png");
+    @Override
+    public void pick(Car pCar) {
+        MyWorld world = (MyWorld) getWorld();
+        world.removeMenu();
+        world.loadWorld3((PlayerCar) pCar);
         super.sound();
     }
 }
