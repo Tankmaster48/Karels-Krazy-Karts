@@ -12,9 +12,10 @@ public class PlayerCar extends Car
      * Act - do whatever the PlayerCar wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private boolean wLast = false;
-    private boolean aLast = false;
-    private boolean spaceLast = false;
+    private boolean wLast;
+    private boolean aLast;
+    private boolean spaceLast;
+    private boolean crashUpgrade;
     private int money;
     
     public void act()
@@ -46,5 +47,9 @@ public class PlayerCar extends Car
     
     public int getMoney() {
         return money;
+    }
+    
+    public void buyCrashUpgrade() {
+        crashUpgrade = true;
     }
 }

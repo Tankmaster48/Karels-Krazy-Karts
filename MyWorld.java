@@ -62,6 +62,8 @@ public class MyWorld extends World
         clearCourse();
         showText(null, 800, 480);
         showText(null, 160, 480);
+        showText(null, 224, 408);
+        pCar.setSound(true);
     }
     
     public void removeWorld0() {
@@ -364,5 +366,6 @@ public class MyWorld extends World
         addObject(new CrashUpgrade(), 736, 544);
         
         pCar.setLocation(carCoord[0] * 64 + 32, carCoord[1] * 64 + 32);
+        pCar.setSound(false);
     }
 }

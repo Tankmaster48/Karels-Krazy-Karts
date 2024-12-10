@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Difficulty3 extends Beeper
+public class Difficulty3 extends Button
 {
     /**
      * Act - do whatever the Difficulty3 wants to do. This method is called whenever
@@ -19,5 +19,6 @@ public class Difficulty3 extends Beeper
     
     public void pick(Car pCar) {
         ((MyWorld) getWorld()).setDifficulty(3);
+        super.sound();
     }
 }

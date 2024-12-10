@@ -14,7 +14,6 @@ public class ShopButton extends Beeper
      */
     
     private GreenfootSound chaching = new GreenfootSound("chaching.wav");
-    // private GreenfootSound buzz = new GreenfootSound("buzz.wav");
     
     public void act()
     {
@@ -27,7 +26,7 @@ public class ShopButton extends Beeper
             pCar.addMoney(-price);
             return true;
         } else {
-            // buzz.play();
+            (new GreenfootSound("notbought.wav")).play();
             return false;
         }
     }

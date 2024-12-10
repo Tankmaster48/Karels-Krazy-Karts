@@ -9,4 +9,6 @@ comment3.params=amount
 comment3.target=void\ removeMoney(int)
 comment4.params=
 comment4.target=int\ getMoney()
-numComments=5
+comment5.params=
+comment5.target=void\ buyCrashUpgrade()
+numComments=6

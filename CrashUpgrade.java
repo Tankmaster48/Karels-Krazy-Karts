@@ -19,5 +19,6 @@ public class CrashUpgrade extends ShopButton
     
     public void pick(Car car) {
         if (tryBuy(50, (PlayerCar) car)) car.setCrashTime(100);
+        ((PlayerCar) car).buyCrashUpgrade();
     }
 }

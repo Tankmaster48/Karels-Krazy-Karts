@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Course1Button extends Beeper
+public class Course1Button extends Button
 {
     /**
      * Act - do whatever the Course1Button wants to do. This method is called whenever
@@ -22,5 +22,6 @@ public class Course1Button extends Beeper
         MyWorld world = (MyWorld) getWorld();
         world.removeMenu();
         world.loadWorld1((PlayerCar) pCar);
+        super.sound();
     }
 }
